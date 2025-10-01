@@ -8,7 +8,7 @@
 import os
 import numpy as np
 import random as rn
-import environment
+import environnment
 import brain
 import dqn
 
@@ -26,7 +26,7 @@ batch_size = 512
 temperature_step = 1.5
 
 #BUILDING THE ENVIRONMENT BY SIMPLY CREATING AN OBJECT OF THE ENVIRONMENT CLASS# CREATION DE L'ENVIRONNEMENT
-env = environment.Environment(optimal_temperature=(18.0, 24.0),
+env = environnment.Environment(optimal_temperature=(18.0, 24.0),
                               initial_month = 0, initial_number_users = 20, initial_rate_data = 30)
 
 # BUILDING THE BRAIN BY SIMPLY CREATING AN OBJECT OF THE BRAIN CLASS# CREATION DU CERVEAU
@@ -77,10 +77,14 @@ if (env.train):
                 energy_ai = abs(action - direction_boundary) * temperature_step
                 
                 # UPDATING THE ENVIRONMENT AND REACHING THE NEXT STATE
-            next_state, reward, game_over = env.update_env(direction,energy_ai,int(timestep / (30*24*60)))
+            month = new_month + int(timestep / (30*24*60))
+            if month >= 12:
+                month -=12
+            next_state, reward, game_over = env.update_env(direction,energy_ai,month)
             total_reward += reward
             # STORING THIS NEW TRANSITION INTO THE MEMORY
-            dqn.remember([current_state, action, reward, next_state], game_over)
+            transition = [current_state, action, reward, next_state]
+            dqn.remember(transition, game_over)
             # GATHERING IN TWO SEPARATE BATCHES THE INPUTS AND THE TARGETS
             inputs, targets = dqn.get_batch(model, batch_size = batch_size)
             # COMPUTING THE LOSS OVER THE TWO WHOLE BATCHES OF INPUTS AND TARGETS
@@ -93,8 +97,18 @@ if (env.train):
         print("Total Energy spent with an AI: {:.0f}".format(env.total_energy_ai)) 
         print("Total Energy spent with no AI: {:.0f}".format(env.total_energy_noai))
         # EARLY STOPPING
-                
-                  
+        if (early_stopping):
+            if (total_reward <= best_total_reward):
+                patience_count += 1
+            elif (total_reward > best_total_reward):
+                best_total_reward = total_reward
+                patience_count = 0
+            if (patience_count >= patience):
+                print("Early Stopping")
+                break
+        # SAVING THE MODEL 
+        model.save("model.h5")
+
             # PLAYING THE NEXT ACTION BY INFERENCE# ACTION PRISE PAR EXPLOITATION
         
             

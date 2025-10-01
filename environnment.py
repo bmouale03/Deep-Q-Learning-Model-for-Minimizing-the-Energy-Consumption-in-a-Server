@@ -8,7 +8,7 @@ class Environnment(object):
     # Introduction et initialisation de tous les parametres et variables de l'environnement
     # INTRODUCING AND INITIALIZING ALL THE PARAMETERS AND VARIABLES OF THE ENVIRONMENT
     def __init__(self, optimal_temperature = (18.0,24.0), initial_month = 0,
-                 initial_number_users = 10, initial_rate_data= =60) :
+                 initial_number_users = 10, initial_rate_data=60) :
         self.monthly_atmospheric_temperatures = [1.0, 5.0, 7.0, 10.0, 11.0, 20.0,23.0, 24.0,
                                                  22.0, 10.0, 5.0, 1.0]#Les temperatures atmospheriques mois par mois 
         self.initial_month = initial_month
@@ -26,8 +26,7 @@ class Environnment(object):
         self.current_number_users = initial_number_users
         self.initial_rate_data = initial_rate_data
         self.current_rate_data = initial_rate_data
-         self.intrinsic_temperature = self.atmospheric_temperature +1.25 * self.current_number_users
-        + 1.25 * self.current_rate_data
+        self.intrinsic_temperature = self.atmospheric_temperature +1.25 * self.current_number_users+1.25 * self.current_rate_data
         self.temperature_ai = self.intrinsic_temperature
         self.temperature_noai = (self.optimal_temperature[0]+ self.optimal_temperature[1]) / 2.0
         self.total_energy_ai = 0.0
@@ -69,8 +68,7 @@ class Environnment(object):
             self.current_rate_data = self.min_rate_data
         # Computing the Delta of Intrinsic Temperature# Calcul de levolution de la temperature intrinsec du serveur
         past_intrinsic_temperature = self.intrinsic_temperature
-        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users 
-                                                                   + 1.25 * self.current_rate_data
+        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users + 1.25 * self.current_rate_data
         delta_intrinsic_temperature = self.intrinsic_temperature - past_intrinsic_temperature
         # Computing the Delta of Temperature caused by the AI#
         if (direction == -1):
@@ -119,8 +117,7 @@ class Environnment(object):
         self.initial_month = new_month
         self.current_number_users = self.initial_number_users
         self.current_rate_data = self.initial_rate_data
-        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users
-                                                                      + 1.25 * self.current_rate
+        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users + 1.25 * self.current_rate
         self.temperature_ai = self.intrinsic_temperature
         self.temperature_noai = (self.optimal_temperature[0] + self.optimal_temperature[1]) / 2.0
         self.total_energy_ai = 0.0

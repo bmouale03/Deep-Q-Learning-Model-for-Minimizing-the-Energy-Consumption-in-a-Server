@@ -6,6 +6,8 @@
 from keras.layers import Input, Dense, Dropout
 from keras.models import Model
 from keras.optimizers import Adam # un optimizeur
+#from keras.src import tree
+#from keras.src import optree
 
 # BUILDING THE BRAIN# CREATION DU CERVEAU
 class Brain(object):
