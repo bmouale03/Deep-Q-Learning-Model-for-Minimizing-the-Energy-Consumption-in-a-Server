@@ -7,10 +7,8 @@ import numpy as np #Pour la creation des matricesm vecteurs et fonction maths
 class Environnment(object):
     # Introduction et initialisation de tous les parametres et variables de l'environnement
     # INTRODUCING AND INITIALIZING ALL THE PARAMETERS AND VARIABLES OF THE ENVIRONMENT
-    def __init__(self, optimal_temperature = (18.0,24.0), initial_month = 0,
-                 initial_number_users = 10, initial_rate_data=60) :
-        self.monthly_atmospheric_temperatures = [1.0, 5.0, 7.0, 10.0, 11.0, 20.0,23.0, 24.0,
-                                                 22.0, 10.0, 5.0, 1.0]#Les temperatures atmospheriques mois par mois 
+    def __init__(self, optimal_temperature = (18.0,24.0), initial_month = 0,initial_number_users = 10, initial_rate_data=60) :
+        self.monthly_atmospheric_temperatures = [1.0, 5.0, 7.0, 10.0, 11.0, 20.0,23.0, 24.0,22.0, 10.0, 5.0, 1.0]#Les temperatures atmospheriques mois par mois 
         self.initial_month = initial_month
         self.atmospheric_temperature =self.monthly_atmospheric_temperatures[initial_month]#Temperature atmosherique actuelle
         self.optimal_temperature = optimal_temperature
@@ -79,7 +77,6 @@ class Environnment(object):
         self.temperature_ai += delta_intrinsic_temperature + delta_temperature_ai
         # Updating the new Server’s Temperature when there is no AI
         self.temperature_noai += delta_intrinsic_temperature
-        
         # GETTING GAME OVER# DETERMINER SI ON A UN GAME OVER OU NON C'EST-A-DIRE ARRETER L'ENTRAINEMENT OU NON
         if (self.temperature_ai < self.min_temperature):
             if (self.train == 1):  
@@ -117,7 +114,7 @@ class Environnment(object):
         self.initial_month = new_month
         self.current_number_users = self.initial_number_users
         self.current_rate_data = self.initial_rate_data
-        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users + 1.25 * self.current_rate
+        self.intrinsic_temperature = self.atmospheric_temperature + 1.25 * self.current_number_users + 1.25 * self.current_rate_data
         self.temperature_ai = self.intrinsic_temperature
         self.temperature_noai = (self.optimal_temperature[0] + self.optimal_temperature[1]) / 2.0
         self.total_energy_ai = 0.0
