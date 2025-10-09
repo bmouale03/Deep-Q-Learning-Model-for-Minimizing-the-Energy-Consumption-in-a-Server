@@ -11,6 +11,8 @@ import random as rn
 import environnment
 import brain
 import dqn
+import tensorflow as tf
+from tensorflow import keras
 
 # Setting seeds for reproducibility
 os.environ['PYTHONHASHSEED'] = '0'
